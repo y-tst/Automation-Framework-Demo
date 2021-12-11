@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+}
+
+group 'org.yanchuk.demo-autoframework'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'io.cucumber:cucumber-java:7.0.0'
+    implementation 'com.codeborne:selenide:6.1.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'gradle.cucumber', 'src/test/resources/features']
+        }
+    }
+}

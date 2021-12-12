@@ -2,3 +2,5 @@ steps/Hooks.java
  steps.Hooks
 steps/BasePageDefinition.java
  steps.BasePageDefinition
+steps/SignInPageDefinition.java
+ steps.SignInPageDefinition
